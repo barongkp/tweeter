@@ -26,7 +26,9 @@ body {
   background-color: white;
   margin: auto;
   margin-top: 140px;
+  padding: 2em;
 }
+
 
 /*
  * Additional CSS can be defined below or in other CSS files, as per instructions
