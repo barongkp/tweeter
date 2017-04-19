@@ -46,7 +46,11 @@ var data = [
   }
 ];
 
+
+
 $(document).ready(function() {
+
+  const URL = 'http://localhost:8080';
 
   function createTweetElement (tweetObj) {
     $tweet = $("<article>").addClass("tweet");
@@ -83,6 +87,23 @@ $(document).ready(function() {
     });
   }
 
-  renderTweets(data);
-  
+  $(function() {
+      var $submit = $('#compose');
+      $submit.on('submit', function (event) {
+        console.log('Button clicked, performing ajax call...');
+        event.preventDefault();
+        var formDataStr = $(this).serialize();
+        console.log($(this).serialize());
+        $.ajax({
+          url: `${URL}/tweets/`,
+          method: 'POST',
+          data: formDataStr,
+          success: function (data) {
+            console.log('Success: ', data);
+            $('#new-tweet-area').val('');
+            renderTweets(data);
+          }
+        });
+      });
+    });
 });
