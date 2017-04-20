@@ -1,7 +1,24 @@
 
 $(document).ready(function() {
 
-  const URL = 'http://localhost:8080';
+  function showNotificationBar(message, duration, bgColor, txtColor, height) {
+    /*set default values*/
+    duration = typeof duration !== 'undefined' ? duration : 1500;
+    bgColor = typeof bgColor !== 'undefined' ? bgColor : "#F4E0E1";
+    txtColor = typeof txtColor !== 'undefined' ? txtColor : "#A42732";
+    height = typeof height !== 'undefined' ? height : 40;
+    /*create the notification bar div if it doesn't exist*/
+    if ($('#notification-bar').size() == 0) {
+        var HTMLmessage = "<div class='notification-message' style='text-align:center; line-height: " + height + "px;'> " + message + " </div>";
+        $('body').prepend("<div id='notification-bar' style='display:none; width:100%; height:" + height + "px; background-color: " + bgColor + "; position: fixed; z-index: 100; color: " + txtColor + ";border-bottom: 1px solid " + txtColor + ";'>" + HTMLmessage + "</div>");
+    }
+    /*animate the bar*/
+    $('#notification-bar').slideDown(function() {
+        setTimeout(function() {
+            $('#notification-bar').slideUp(function() { $(this).remove();});
+        }, duration);
+    });
+  }
 
   function createTweetElement (tweetObj) {
     $tweet = $("<article>").addClass("tweet");
@@ -34,7 +51,7 @@ $(document).ready(function() {
   function renderTweets(tweets) {
     tweets.forEach((tweet)=> {
       var a = createTweetElement(tweet);
-      $(".tweets-container").append(a);
+      $(".tweets-container").prepend(a);
     });
   }
 
@@ -44,13 +61,27 @@ $(document).ready(function() {
         console.log('Button clicked, performing ajax call...');
         event.preventDefault();
         var formDataStr = $(this).serialize();
-        console.log($(this).serialize());
-        $.ajax({
-          url: `${URL}/tweets/`,
-          method: 'POST',
-          data: formDataStr,
-          success: $('#new-tweet-area').val('')
-        });
+        var textAreaContent = $('#new-tweet-area').val();
+        // debugger;
+        console.log(textAreaContent === "");
+
+        if(textAreaContent === "") {
+          return showNotificationBar("Please enter a text");
+        } else if (textAreaContent.length > 140) {
+          return showNotificationBar("Tweet is too long");
+        } else {
+          $.ajax({
+            url: `tweets/`,
+            method: 'POST',
+            data: formDataStr,
+            success: function () {
+              loadTweets();
+              $('#new-tweet-area').val('');
+              $('.counter').html(140);
+              console.log('the ajax request is successfull');
+            }
+          });
+        }
       });
     });
     function loadTweets() {
@@ -63,5 +94,5 @@ $(document).ready(function() {
         }
       });
     }
-    loadTweets();
+    // loadTweets();
   });
