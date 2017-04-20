@@ -63,6 +63,7 @@ function loadTweets() {
   $.ajax({
     url: `/tweets`,
     method: 'GET',
+    dataType: "json",
     success: function (data) {
       console.log('Success: ', data);
       renderTweets(data);
