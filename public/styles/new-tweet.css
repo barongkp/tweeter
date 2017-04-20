@@ -29,6 +29,10 @@
   margin-top: 0;
 }
 
+#new-tweet-area {
+  height: 4em;
+}
+
 .color-red {
   color: red;
 }

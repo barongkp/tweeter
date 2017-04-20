@@ -21,6 +21,7 @@
   background-color: cyan;
   margin-top: 7px;
   margin-left: 15px;
+  margin-right: 10px;
 }
 
 .tweet header {
@@ -37,6 +38,8 @@
   color: #6b6c6f;
   padding-right: 40px;
   margin-top: 15px;
+  margin: auto;
+  width: 200px;
 }
 
 .tweet header h2 {
