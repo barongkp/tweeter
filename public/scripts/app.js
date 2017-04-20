@@ -91,8 +91,12 @@ function showNotificationBar(message, duration, bgColor, txtColor, height) {
 
 
   $(document).ready(function() {
+    $(".new-tweet").hide();
     loadTweets();
     console.log('loadtweets function invoked successfully');
     $('#compose').on('submit', handleComposeSubmit);
     console.log('submit is successful');
+    $("button").click(function(){
+      $(".new-tweet").slideToggle("fast", function (){});
+    });
   });
