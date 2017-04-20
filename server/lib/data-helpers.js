@@ -17,10 +17,8 @@ module.exports = function makeDataHelpers(db) {
 
     // Get all tweets in `db`, sorted by newest first
     getTweets: function(callback) {
-      simulateDelay(() => {
-        const sortNewestFirst = (a, b) => a.created_at - b.created_at;
-        callback(null, db.tweets.sort(sortNewestFirst));
-      });
+      const sortNewestFirst = (a, b) => a.created_at - b.created_at;
+      callback(null, db.collection("tweets").find({}).sort(sortNewestFirst));
     }
 
   };
