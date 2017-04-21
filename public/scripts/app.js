@@ -37,7 +37,7 @@ function createTweetElement (tweetObj) {
     </div>
     <footer>
       <p>
-      ${tweetObj.created_at}
+      ${getTheCurrentTime(tweetObj.created_at)}
       </p>
       <span>
         <i class="fa fa-flag" aria-hidden="true"></i>
@@ -90,6 +90,21 @@ function showNotificationBar(message, duration, bgColor, txtColor, height) {
   });
 }
 
+function getTheCurrentTime(date) {
+  var currentDate = Date.now();
+  var howLongAgoSeconds = (currentDate - date) / 1000 / 60;
+  var howLongAgoMinutes = (currentDate - date) / 1000 / 60;
+  var howLongAgoHours = (currentDate - date) / 1000 / 60 / 60;
+  if (howLongAgoMinutes < 1) {
+    return `${Math.floor(howLongAgoSeconds)} seconds ago`;
+  } else if (howLongAgoMinutes > 1 && howLongAgoMinutes < 60) {
+    return `${Math.floor(howLongAgoMinutes)} minutes ago`;
+  } else if (howLongAgoMinutes > 60 && howLongAgoHours < 24) {
+    return `${Math.floor(howLongAgoHours)} hours ago`;
+  } else if (howLongAgoHours > 24) {
+    return `${Math.floor(howLongAgoHours / 24)} days ago`;
+  }
+}
 
   $(document).ready(function() {
     $(".new-tweet").hide();
