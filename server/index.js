@@ -24,13 +24,6 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
   // ==> We have a connection to the "test-tweets" db,
   //     starting here.
   console.log(`Connected to mongodb: ${MONGODB_URI}`);
-  db.collection("tweets").find().toArray((err, results) => {
-    // Lazy error handling:
-    if (err) throw err;
-
-    // ==> Fair warning: This is going to log a lot of stuff...
-    console.log("find results array: ", results);
-
 
   // The `data-helpers` module provides an interface to the database of tweets.
   // This simple interface layer has a big benefit: we could switch out the
@@ -47,9 +40,9 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
 
     // Mount the tweets routes at the "/tweets" path prefix:
     app.use("/tweets", tweetsRoutes);
+});
 
-    app.listen(PORT, () => {
-      console.log("Example app listening on port " + PORT);
-    });
-  });
+
+app.listen(PORT, () => {
+  console.log("Example app listening on port " + PORT);
 });
